@@ -28,8 +28,8 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
 
 public slots:
     void setScreenAlignment(Qt::Alignment screenAlignment);

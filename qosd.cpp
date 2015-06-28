@@ -49,14 +49,14 @@ void QOSD::paintEvent(QPaintEvent *)
     p.drawPrimitive(QStyle::PE_Frame, opt);
 }
 
-void QOSD::enterEvent(QEvent *event)
+void QOSD::enterEvent(QEvent *)
 {
     if(m_timer->isActive()){
         m_timer->stop();
     }
 }
 
-void QOSD::leaveEvent(QEvent *event)
+void QOSD::leaveEvent(QEvent *)
 {
     if(!m_timer->isActive()){
         m_timer->start();
@@ -106,6 +106,7 @@ void QOSD::setScreenAlignment(Qt::Alignment screenAlignment)
         break;
     case Qt::AlignHCenter:
         x = m_screen->geometry().width()/2 - width/2;
+        break;
     default:
         qDebug()<<"Can't use this horizontal alignment";
         break;
