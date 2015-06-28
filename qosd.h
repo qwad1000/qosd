@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <QGuiApplication>
+#include <QStyleOption>
+#include <QStylePainter>
 
 class QOSD : public QFrame
 {
@@ -23,6 +25,11 @@ public:
     Qt::Alignment screenAlignment() const;
 
     QScreen *screen() const;
+
+protected:
+    void paintEvent(QPaintEvent *);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
 
 public slots:
     void setScreenAlignment(Qt::Alignment screenAlignment);

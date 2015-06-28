@@ -16,14 +16,14 @@ QOSD::QOSD(QScreen *screen, QWidget *parent) :
     Qt::WindowFlags flags = Qt::Popup;//Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint;
     setWindowFlags(flags);/*Qt::Popup;//*/
 
-    setStyleSheet("QFrame{"
+    setStyleSheet(""
                       "margin: 5px;"
                       "background: yellow;"
                       "background-clip: border;"
                       "border: 2px solid green;"
                       "border-radius: 4px;"
                       "padding: 5px;"
-                  "}");
+                  "");
 
     m_timer = new QTimer(this);
     m_timer->setSingleShot(true);
@@ -39,6 +39,28 @@ Qt::Alignment QOSD::screenAlignment() const
 QScreen *QOSD::screen() const
 {
     return m_screen;
+}
+
+void QOSD::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QStylePainter p(this);
+    p.drawPrimitive(QStyle::PE_Frame, opt);
+}
+
+void QOSD::enterEvent(QEvent *event)
+{
+    if(m_timer->isActive()){
+        m_timer->stop();
+    }
+}
+
+void QOSD::leaveEvent(QEvent *event)
+{
+    if(!m_timer->isActive()){
+        m_timer->start();
+    }
 }
 
 void QOSD::setScreenAlignment(Qt::Alignment screenAlignment)
