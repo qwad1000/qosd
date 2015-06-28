@@ -16,14 +16,12 @@ QOSD::QOSD(QScreen *screen, QWidget *parent) :
     Qt::WindowFlags flags = Qt::Popup;//Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint;
     setWindowFlags(flags);/*Qt::Popup;//*/
 
-    setStyleSheet(""
-                      "margin: 5px;"
-                      "background: yellow;"
-                      "background-clip: border;"
-                      "border: 2px solid green;"
-                      "border-radius: 4px;"
-                      "padding: 5px;"
-                  "");
+    setStyleSheet("QOSD{"
+                  "background: yellow;"
+                  "background-clip: border;"
+                  "border: 2px solid green;"
+                  "border-radius: 4px;"
+                  "}");
 
     m_timer = new QTimer(this);
     m_timer->setSingleShot(true);
@@ -45,8 +43,8 @@ void QOSD::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
     opt.init(this);
-    QStylePainter p(this);
-    p.drawPrimitive(QStyle::PE_Frame, opt);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void QOSD::enterEvent(QEvent *)
@@ -67,6 +65,10 @@ void QOSD::setScreenAlignment(Qt::Alignment screenAlignment)
 {
     if (m_screenAlignment == screenAlignment)
         return;
+
+    show(); /// crunch for dealing with geometry while widget is not shown
+    updateGeometry();
+    hide();
 
     m_screenAlignment = screenAlignment;
 
