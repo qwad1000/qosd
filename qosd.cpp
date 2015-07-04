@@ -4,22 +4,22 @@ const int TimerInterval = 2000;
 
 QOSD::QOSD(QScreen *screen, QWidget *parent) :
     QFrame(parent),
-    m_screen(screen)
+    m_screen(screen)//TODO
 {
-    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    /*QHBoxLayout *hLayout = new QHBoxLayout(this);
     QLabel *label = new QLabel("adsf", this);
     hLayout->addWidget(label);
-    this->setLayout(hLayout);
+    this->setLayout(hLayout);*/
 
     setAttribute(Qt::WA_TranslucentBackground, true);
 
     Qt::WindowFlags flags = Qt::Popup;//Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint;
     setWindowFlags(flags);/*Qt::Popup;//*/
 
-    setStyleSheet("QOSD{"
+    setStyleSheet("QOSD {"
                   "background: yellow;"
                   "background-clip: border;"
-                  "border: 2px solid green;"
+    //              "border: 2px solid green;"
                   "border-radius: 4px;"
                   "}");
 
@@ -37,6 +37,11 @@ Qt::Alignment QOSD::screenAlignment() const
 QScreen *QOSD::screen() const
 {
     return m_screen;
+}
+
+int QOSD::timerInterval() const
+{
+    return m_timer->interval();
 }
 
 void QOSD::paintEvent(QPaintEvent *)
@@ -66,9 +71,9 @@ void QOSD::setScreenAlignment(Qt::Alignment screenAlignment)
     if (m_screenAlignment == screenAlignment)
         return;
 
-    show(); /// crunch for dealing with geometry while widget is not shown
+    QFrame::show(); /// crunch for dealing with geometry while widget is not shown
     updateGeometry();
-    hide();
+    QFrame::hide();
 
     m_screenAlignment = screenAlignment;
 
@@ -127,3 +132,10 @@ void QOSD::show()
     m_timer->start();
     QFrame::show();
 }
+
+void QOSD::setTimerInterval(int timerInterval)
+{
+    m_timer->setInterval(timerInterval);
+}
+
+
